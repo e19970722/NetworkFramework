@@ -11,7 +11,7 @@ import Network
 class SocketManager {
 
     /// Assign a custom header to communicate with server
-    private let customHeaderStr = "JTkoQP//AAAAAAAAzwcAAA=="
+    private let customHeaderStr = ""
     
     private let serverType: AppServer
     private let queue: DispatchQueue
