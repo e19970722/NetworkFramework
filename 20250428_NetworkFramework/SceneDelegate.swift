@@ -2,7 +2,7 @@
 //  SceneDelegate.swift
 //  20250428_NetworkFramework
 //
-//  Created by 金融研發一部-iOS-陳衍霖 on 2025/4/28.
+//  Created by Yen Lin on 2025/4/28.
 //
 
 import UIKit
