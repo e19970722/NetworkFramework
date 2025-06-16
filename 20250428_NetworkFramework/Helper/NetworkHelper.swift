@@ -24,9 +24,9 @@ public enum AppServer: CaseIterable {
     
     public var host: String {
         switch self {
-        case .quote:          return "61.220.141.148"
-        case .push:           return "61.220.141.148"
-        case .trade:          return "210.202.246.170"
+        case .quote:          return ""
+        case .push:           return ""
+        case .trade:          return ""
         }
     }
     
