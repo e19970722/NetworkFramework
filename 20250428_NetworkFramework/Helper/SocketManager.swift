@@ -47,16 +47,18 @@ class SocketManager {
         self.parameter = isTLS ? .tcp : .tls
     }
     
-    func connect() {
+    func connectServer(completion: @escaping (Result<Void, Error>) -> Void) {
         self.connection = NWConnection(host: host, port: port, using: parameter)
         self.connection?.stateUpdateHandler = { [weak self] state in
             guard let self = self else { return }
             switch state {
             case .ready:
                 self.didConnectServer()
+                completion(.success(()))
                 print("✅ \(serverType.name)Server connect state: \(state).")
                 
             case .failed(let error):
+                completion(.failure(error))
                 print("❌ \(serverType.name)Server connect error: \(error.localizedDescription).")
                 
             default:
@@ -66,7 +68,7 @@ class SocketManager {
         self.connection?.start(queue: self.queue)
     }
     
-    func connect(host: String?, port: UInt16?) {
+    func connect(host: String?, port: UInt16?, completion: @escaping (Result<Bool, Error>) -> Void) {
         guard let hostString = host,
               let portString = port,
               let port = NWEndpoint.Port(rawValue: portString) else {

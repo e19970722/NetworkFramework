@@ -14,24 +14,37 @@ class NetworkViewController: UIViewController {
     @IBOutlet weak var pushServerLabel: UILabel!
     @IBOutlet weak var tradeServerLabel: UILabel!
     
-    private let helper = NetworkHelper()
+    private let viewModel = NetworkViewModel()
     private var cancellables = Set<AnyCancellable>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        bindViewModel()
     }
 
+    private func bindViewModel() {
+        
+        self.viewModel.$socketsConnectedStateDict
+            .receive(on: DispatchQueue.main)
+            .sink { returnedDict in
+                if let tradeState = returnedDict[AppServer.trade] {
+                    let isConnectedSuffix = tradeState ? "Connected" : "Not Connected"
+                    self.tradeServerLabel.text = "\(AppServer.trade.name) Server is \(isConnectedSuffix)."
+                }
+            }
+            .store(in: &cancellables)
+    }
+    
     @IBAction func quoteButtonDidTapped(_ sender: UIButton) {
-        helper.connectQuoteServer()
+//        viewModel.connectQuoteServer()
     }
     
     @IBAction func pushButtonDidTapped(_ sender: UIButton) {
-        helper.connectPushServer()
+//        viewModel.connectPushServer()
     }
     
     @IBAction func tradeButtonDidTapped(_ sender: UIButton) {
-        helper.connectTradeServer()
+        viewModel.connectTradeServer()
     }
     
     @IBAction func connectAllButtonDidTapped(_ sender: UIButton) {
